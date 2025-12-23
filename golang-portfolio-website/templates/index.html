@@ -1,0 +1,444 @@
+{{define "content"}}
+<style>
+    /* Hero Section */
+    .hero-section {
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+        border-radius: 50%;
+        top: -250px;
+        right: -250px;
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    .hero-section::after {
+        content: '';
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(139, 92, 246, 0.1));
+        border-radius: 50%;
+        bottom: -200px;
+        left: -200px;
+        animation: float 8s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(5deg); }
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-title .gradient-text {
+        background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+        color: var(--gray);
+        margin-bottom: 2rem;
+        font-weight: 400;
+    }
+    
+    .typing-text {
+        border-right: 3px solid var(--primary);
+        animation: blink 0.7s step-end infinite;
+    }
+    
+    @keyframes blink {
+        0%, 100% { border-color: transparent; }
+        50% { border-color: var(--primary); }
+    }
+    
+    /* Project Cards */
+    .project-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        border: 1px solid #e2e8f0;
+        height: 100%;
+    }
+    
+    .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    }
+    
+    .project-image {
+        height: 250px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .project-image::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0);
+        transition: all 0.3s ease;
+    }
+    
+    .project-card:hover .project-image::after {
+        background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .project-body {
+        padding: 2rem;
+    }
+    
+    .tech-tag {
+        display: inline-block;
+        padding: 0.4rem 1rem;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+        color: var(--primary);
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin: 0.25rem;
+    }
+    
+    /* Skills Section */
+    .skill-item {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+    }
+    
+    .skill-item:hover {
+        border-color: var(--primary);
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+    }
+    
+    .skill-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+    
+    .progress {
+        height: 10px;
+        border-radius: 10px;
+        background: var(--gray-light);
+    }
+    
+    .progress-bar {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 10px;
+    }
+    
+    /* Experience Timeline */
+    .timeline {
+        position: relative;
+        padding: 2rem 0;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 30px;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, var(--primary), var(--secondary));
+    }
+    
+    .timeline-item {
+        position: relative;
+        padding-left: 80px;
+        margin-bottom: 3rem;
+    }
+    
+    .timeline-dot {
+        position: absolute;
+        left: 18px;
+        width: 28px;
+        height: 28px;
+        background: white;
+        border: 4px solid var(--primary);
+        border-radius: 50%;
+        z-index: 1;
+    }
+    
+    .timeline-content {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+    }
+    
+    .timeline-content:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Contact Form */
+    .contact-form {
+        background: white;
+        padding: 3rem;
+        border-radius: 24px;
+        box-shadow: 0 10px 60px rgba(0, 0, 0, 0.05);
+    }
+    
+    .form-control, .form-select {
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 0.875rem 1.25rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+    
+    /* Section Styling */
+    .section-title {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 60px;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 3px;
+    }
+    
+    .section-subtitle {
+        color: var(--gray);
+        font-size: 1.25rem;
+        margin-bottom: 3rem;
+    }
+    
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        .section-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7 hero-content">
+                <div class="fade-in-up">
+                    <h1 class="hero-title">
+                        Hi, I'm <span class="gradient-text">Rafli Nur Rahman</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        <span class="typing-text">Data Science & Ai Engineer</span>
+                    </p>
+                    <p class="lead mb-4 text-muted">
+                        I build data-driven solutions to solve complex problems and drive business growth.
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="#projects" class="btn btn-primary btn-lg">
+                            <i class="fas fa-rocket me-2"></i>View My Work
+                        </a>
+                        <a href="#contact" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-envelope me-2"></i>Get In Touch
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center d-none d-lg-block">
+                <div class="fade-in-up" style="animation-delay: 0.2s;">
+                    <i class="fas fa-code" style="font-size: 15rem; color: var(--primary); opacity: 0.1;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">Check out some of my recent work</p>
+        </div>
+        <div class="row g-4">
+            {{range .Projects}}
+            <div class="col-md-6 col-lg-4">
+                <div class="project-card">
+                    <div class="project-image">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="project-body">
+                        <h3 class="h4 mb-3">{{.Title}}</h3>
+                        <p class="text-muted mb-3">{{.Description}}</p>
+                        <div class="mb-3">
+                            {{range .TechStack}}
+                            <span class="tech-tag">{{.}}</span>
+                            {{end}}
+                        </div>
+                        <div class="d-flex gap-2">
+                            {{if .GithubURL}}
+                            <a href="{{.GithubURL}}" class="btn btn-sm btn-outline-primary">
+                                <i class="fab fa-github me-1"></i>Code
+                            </a>
+                            {{end}}
+                            {{if .DemoURL}}
+                            <a href="{{.DemoURL}}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-external-link-alt me-1"></i>Live Demo
+                            </a>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Skills & Technologies</h2>
+            <p class="section-subtitle">Technologies I work with</p>
+        </div>
+        <div class="row g-4">
+            {{range .Skills}}
+            <div class="col-md-6 col-lg-4">
+                <div class="skill-item">
+                    <div class="skill-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4 class="mb-3">{{.Name}}</h4>
+                    <div class="progress mb-2">
+                        <div class="progress-bar" role="progressbar" style="width: {{.Level}}%" aria-valuenow="{{.Level}}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="text-end">
+                        <small class="text-muted fw-bold">{{.Level}}%</small>
+                    </div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+</section>
+
+<!-- Experience Section -->
+<section id="experience" class="py-5">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Work Experience</h2>
+            <p class="section-subtitle">My professional journey</p>
+        </div>
+        <div class="timeline">
+            {{range .Experience}}
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="d-flex justify-content-between align-items-start mb-2 flex-wrap">
+                        <div>
+                            <h4 class="mb-1">{{.Position}}</h4>
+                            <h5 class="text-primary mb-2">{{.Company}}</h5>
+                        </div>
+                        <span class="badge bg-light text-dark">{{.StartDate}} - {{.EndDate}}</span>
+                    </div>
+                    <p class="text-muted mb-0">{{.Description}}</p>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Get In Touch</h2>
+                    <p class="section-subtitle">Have a project in mind? Let's work together!</p>
+                </div>
+                <div class="contact-form">
+                    <form action="/contact" method="POST">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label fw-semibold">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label fw-semibold">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="subject" class="form-label fw-semibold">Subject</label>
+                                <input type="text" class="form-control" id="subject" name="subject" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="message" class="form-label fw-semibold">Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{end}}

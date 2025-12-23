@@ -1,0 +1,14 @@
+{{ define "content" }}
+<section>
+  <h2>Contact</h2>
+
+  <div class="card">
+    <form method="POST" action="/contact">
+      <input type="text" name="name" placeholder="Nama" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <textarea name="message" rows="5" placeholder="Pesan"></textarea>
+      <button type="submit">Kirim Pesan</button>
+    </form>
+  </div>
+</section>
+{{ end }}

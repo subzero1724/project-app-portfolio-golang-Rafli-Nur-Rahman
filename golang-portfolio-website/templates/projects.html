@@ -1,0 +1,135 @@
+{{define "content"}}
+<style>
+    .projects-header {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 5rem 0 3rem;
+        margin-top: 80px;
+    }
+    
+    .project-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        border: 1px solid #e2e8f0;
+        height: 100%;
+    }
+    
+    .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+    
+    .project-image {
+        height: 250px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .project-image::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0);
+        transition: all 0.3s ease;
+    }
+    
+    .project-card:hover .project-image::after {
+        background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .project-body {
+        padding: 2rem;
+    }
+    
+    .featured-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: var(--accent);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        z-index: 1;
+    }
+    
+    .tech-tag {
+        display: inline-block;
+        padding: 0.4rem 1rem;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+        color: var(--primary);
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin: 0.25rem;
+    }
+</style>
+
+<!-- Modern gradient header -->
+<div class="projects-header">
+    <div class="container text-center">
+        <h1 class="display-3 fw-bold mb-3">My Projects</h1>
+        <p class="lead mb-0">A collection of my recent work and side projects</p>
+    </div>
+</div>
+
+<section class="py-5">
+    <div class="container">
+        {{if .Projects}}
+        <div class="row g-4">
+            {{range .Projects}}
+            <div class="col-md-6 col-lg-4">
+                <div class="project-card">
+                    <!-- Modern project image with icon -->
+                    {{if .IsFeatured}}
+                    <span class="featured-badge">
+                        <i class="fas fa-star me-1"></i>Featured
+                    </span>
+                    {{end}}
+                    <div class="project-image">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="project-body">
+                        <h3 class="h4 mb-3">{{.Title}}</h3>
+                        <p class="text-muted mb-3">{{.Description}}</p>
+                        <div class="mb-3">
+                            {{range .TechStack}}
+                            <span class="tech-tag">{{.}}</span>
+                            {{end}}
+                        </div>
+                        <div class="d-flex gap-2">
+                            {{if .GithubURL}}
+                            <a href="{{.GithubURL}}" class="btn btn-sm btn-outline-primary flex-fill" target="_blank">
+                                <i class="fab fa-github me-1"></i>Code
+                            </a>
+                            {{end}}
+                            {{if .DemoURL}}
+                            <a href="{{.DemoURL}}" class="btn btn-sm btn-primary flex-fill" target="_blank">
+                                <i class="fas fa-external-link-alt me-1"></i>Live
+                            </a>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+        {{else}}
+        <div class="text-center py-5">
+            <i class="fas fa-folder-open fa-4x text-muted mb-3"></i>
+            <p class="text-muted h5">No projects available yet.</p>
+        </div>
+        {{end}}
+    </div>
+</section>
+{{end}}

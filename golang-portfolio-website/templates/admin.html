@@ -1,0 +1,305 @@
+{{define "content"}}
+<style>
+    .admin-header {
+        background: linear-gradient(135deg, var(--dark), var(--dark-light));
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+    }
+    
+    function toggleForm(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'block' : 'none';
+    }
+
+    .admin-tabs {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+    
+    .admin-tab-btn {
+        padding: 1.25rem 2rem;
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid transparent;
+        color: var(--gray);
+        font-weight: 600;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .admin-tab-btn:hover {
+        background: var(--gray-light);
+        color: var(--primary);
+    }
+    
+    .admin-tab-btn.active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+        background: var(--gray-light);
+    }
+    
+    .admin-card {
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .admin-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-action {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+</style>
+
+<div class="admin-header">
+    <div class="container">
+        <h1 class="display-5 fw-bold mb-2">
+            <i class="fas fa-cog me-3"></i>Admin Dashboard
+        </h1>
+        <p class="lead mb-0">Manage your portfolio content</p>
+    </div>
+</div>
+
+<section>
+    <div class="container">
+        <div class="admin-tabs">
+            <div class="border-bottom d-flex overflow-auto">
+                <button class="admin-tab-btn active" onclick="showTab('projects')">
+                    <i class="fas fa-laptop-code me-2"></i>Projects
+                </button>
+                <button class="admin-tab-btn" onclick="showTab('skills')">
+                    <i class="fas fa-code me-2"></i>Skills
+                </button>
+                <button class="admin-tab-btn" onclick="showTab('experience')">
+                    <i class="fas fa-briefcase me-2"></i>Experience
+                </button>
+                <button class="admin-tab-btn" onclick="showTab('messages')">
+                    <i class="fas fa-envelope me-2"></i>Messages
+                </button>
+            </div>
+            
+            <!-- Projects Tab -->
+            <div id="projects-tab" class="tab-content p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0">Projects</h3>
+                    <button class="btn btn-primary" onclick="toggleForm('project-form')">
+                        <i class="fas fa-plus me-2"></i>Add Project
+                    </button>
+                </div>
+
+                <div id="project-form" style="display:none; margin-bottom:1rem;">
+                    <form method="POST" action="/admin/projects">
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <input class="form-control" name="title" placeholder="Title" required />
+                            </div>
+                            <div class="col-md-6">
+                                <input class="form-control" name="image_url" placeholder="Image URL" />
+                            </div>
+                            <div class="col-12">
+                                <textarea class="form-control" name="description" placeholder="Description"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="form-control" name="tech_stack" placeholder="Tech stack (comma separated)" />
+                            </div>
+                            <div class="col-md-6">
+                                <input class="form-control" name="demo_url" placeholder="Demo URL" />
+                            </div>
+                            <div class="col-md-6">
+                                <input class="form-control" name="github_url" placeholder="Github URL" />
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center">
+                                <label class="me-2"><input type="checkbox" name="is_featured" /> Featured</label>
+                            </div>
+                            <div class="col-12 text-end">
+                                <button class="btn btn-secondary" type="button" onclick="toggleForm('project-form')">Cancel</button>
+                                <button class="btn btn-primary" type="submit">Create Project</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                {{range .Projects}}
+                {{ $p := . }}
+                <div class="admin-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <h5 class="mb-2">{{$p.Title}}</h5>
+                            <p class="text-muted mb-3">{{$p.Description}}</p>
+                            <div class="d-flex flex-wrap gap-2">
+                                {{range $p.TechStack}}
+                                <span class="badge bg-light text-primary">{{.}}</span>
+                                {{end}}
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 ms-3">
+                            <button class="btn btn-action btn-outline-primary" onclick="alert('Edit {{$p.ID}}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-action btn-outline-danger" onclick="confirm('Delete?')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{end}}
+            </div>
+
+            <!-- Skills Tab -->
+            <div id="skills-tab" class="tab-content p-4" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0">Skills</h3>
+                    <button class="btn btn-primary" onclick="toggleForm('skill-form')">
+                        <i class="fas fa-plus me-2"></i>Add Skill
+                    </button>
+                </div>
+                <div id="skill-form" style="display:none; margin-bottom:1rem;">
+                    <form method="POST" action="/admin/skills">
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <input class="form-control" name="name" placeholder="Skill name" required />
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" type="number" name="level" placeholder="Level (0-100)" min="0" max="100" required />
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" name="category" placeholder="Category" />
+                            </div>
+                            <div class="col-12 text-end">
+                                <button class="btn btn-secondary" type="button" onclick="toggleForm('skill-form')">Cancel</button>
+                                <button class="btn btn-primary" type="submit">Create Skill</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                {{range .Skills}}
+                {{ $s := . }}
+                <div class="admin-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="flex-grow-1">
+                            <h5 class="mb-2">{{$s.Name}}</h5>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" style="width: {{$s.Level}}%"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 ms-3 align-items-center">
+                            <span class="badge bg-primary">{{$s.Level}}%</span>
+                            <button class="btn btn-action btn-outline-primary" onclick="alert('Edit')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-action btn-outline-danger" onclick="confirm('Delete?')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{end}}
+            </div>
+
+            <!-- Experience Tab -->
+            <div id="experience-tab" class="tab-content p-4" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0">Experience</h3>
+                    <button class="btn btn-primary" onclick="toggleForm('exp-form')">
+                        <i class="fas fa-plus me-2"></i>Add Experience
+                    </button>
+                </div>
+                <div id="exp-form" style="display:none; margin-bottom:1rem;">
+                    <form method="POST" action="/admin/experience">
+                        <div class="row g-2">
+                            <div class="col-md-6"><input class="form-control" name="company" placeholder="Company" required /></div>
+                            <div class="col-md-6"><input class="form-control" name="position" placeholder="Position" required /></div>
+                            <div class="col-12"><textarea class="form-control" name="description" placeholder="Description"></textarea></div>
+                            <div class="col-md-4"><input class="form-control" type="date" name="start_date" required /></div>
+                            <div class="col-md-4"><input class="form-control" type="date" name="end_date" /></div>
+                            <div class="col-md-4 d-flex align-items-center"><label><input type="checkbox" name="is_current" /> Current</label></div>
+                            <div class="col-12 text-end">
+                                <button class="btn btn-secondary" type="button" onclick="toggleForm('exp-form')">Cancel</button>
+                                <button class="btn btn-primary" type="submit">Create Experience</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                {{range .Experience}}
+                {{ $e := . }}
+                <div class="admin-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1">{{$e.Position}}</h5>
+                            <p class="text-primary fw-semibold mb-2">{{$e.Company}}</p>
+                            <p class="text-muted small mb-2">{{$e.StartDate}} - {{$e.EndDate}}</p>
+                            <p class="mb-0">{{$e.Description}}</p>
+                        </div>
+                        <div class="d-flex gap-2 ms-3">
+                            <button class="btn btn-action btn-outline-primary" onclick="alert('Edit')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-action btn-outline-danger" onclick="confirm('Delete?')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{end}}
+            </div>
+
+            <!-- Messages Tab -->
+            <div id="messages-tab" class="tab-content p-4" style="display: none;">
+                <h3 class="mb-4">Contact Messages</h3>
+                {{range .Messages}}
+                {{ $m := . }}
+                <div class="admin-card">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div>
+                            <h5 class="mb-1">{{$m.Name}}</h5>
+                            <p class="text-muted small mb-0">{{$m.Email}}</p>
+                        </div>
+                        <span class="text-muted small">{{$m.CreatedAt}}</span>
+                    </div>
+                    <h6 class="mb-2">{{$m.Subject}}</h6>
+                    <p class="mb-0">{{$m.Message}}</p>
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function showTab(tabName) {
+    // Hide all tabs
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.style.display = 'none';
+    });
+    
+    // Remove active from all buttons
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show selected tab
+    document.getElementById(tabName + '-tab').style.display = 'block';
+    
+    // Add active to clicked button
+    event.target.closest('.admin-tab-btn').classList.add('active');
+}
+</script>
+{{end}}

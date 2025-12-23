@@ -1,0 +1,132 @@
+{{define "content"}}
+<style>
+    .contact-header {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 5rem 0 3rem;
+        margin-top: 80px;
+    }
+    
+    .contact-form-wrapper {
+        background: white;
+        padding: 3rem;
+        border-radius: 24px;
+        box-shadow: 0 10px 60px rgba(0, 0, 0, 0.1);
+    }
+    
+    .contact-info-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 2rem;
+        transition: all 0.3s ease;
+    }
+    
+    .contact-info-card:hover {
+        border-color: var(--primary);
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        transform: translateY(-5px);
+    }
+    
+    .contact-info-card i {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        margin-bottom: 1rem;
+    }
+    
+    .form-control, .form-select {
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 0.875rem 1.25rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+    
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--dark);
+    }
+</style>
+
+<!-- Modern gradient header -->
+<div class="contact-header">
+    <div class="container text-center">
+        <h1 class="display-3 fw-bold mb-3">Get In Touch</h1>
+        <p class="lead mb-0">Have a question or want to work together?</p>
+    </div>
+</div>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Styled contact form -->
+                <div class="contact-form-wrapper mb-5">
+                    <form action="/contact" method="POST">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="subject" name="subject" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="6" required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Modern contact info cards -->
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="contact-info-card text-center">
+                            <i class="fas fa-envelope fa-2x"></i>
+                            <h5 class="mb-2">Email</h5>
+                            <p class="text-muted mb-0">your.email@example.com</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="contact-info-card text-center">
+                            <i class="fas fa-phone fa-2x"></i>
+                            <h5 class="mb-2">Phone</h5>
+                            <p class="text-muted mb-0">+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="contact-info-card text-center">
+                            <i class="fas fa-map-marker-alt fa-2x"></i>
+                            <h5 class="mb-2">Location</h5>
+                            <p class="text-muted mb-0">Your City, Country</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{end}}
