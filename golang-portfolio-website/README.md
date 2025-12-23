@@ -1,94 +1,184 @@
-# Website Portfolio (Golang)
 
-![CI](https://github.com/subzero1724/project-app-cli-scripting-os-Rafli_Nur_Rahman/actions/workflows/ci.yml/badge.svg)
-[![codecov](https://codecov.io/gh/subzero1724/project-app-cli-scripting-os-Rafli_Nur_Rahman/branch/main/graph/badge.svg)](https://codecov.io/gh/subzero1724/project-app-cli-scripting-os-Rafli_Nur_Rahman)
-
-Dokumentasi singkat untuk menjalankan dan mengembangkan project portfolio ini.
-
-## Ringkasan singkat
-- Backend: Go
-- Router: chi
-- DB: PostgreSQL (pgx)
-- Template: html/template
-
-## Persyaratan
-- Go 1.20+
-- PostgreSQL (opsional: Docker untuk dev)
-
-## Cara cepat (Quick Start)
+README.md - Project Website Portfolio Golang
 
 
-1) Jalankan PostgreSQL (opsional). Untuk project kecil ini Docker tidak wajib — Anda dapat menggunakan Postgres lokal atau Docker jika ingin cepat:
+# 🌐 Project Website Portfolio (Golang)
 
-	# jika pakai Docker (opsional)
-	docker run --name portfolio-db -e POSTGRES_PASSWORD=pass -e POSTGRES_DB=portfolio -p 5432:5432 -d postgres:15
+Aplikasi **Website Portfolio** berbasis **Golang (Go)** menggunakan **Server Side Rendering (SSR)**.
 
-2) Jalankan migrasi (semua tabel sudah ada di `migrations/init.sql`):
+Website ini digunakan untuk menampilkan **profil**, **daftar project**, serta **form kontak**, dengan penyimpanan data menggunakan **PostgreSQL**.
 
-	psql -d portfolio -f migrations/init.sql
+---
 
-3) Set environment (contoh):
+## 👤 Informasi Umum
 
-	export DATABASE_URL="postgres://postgres:pass@localhost:5432/portfolio"
-	export SERVER_PORT=8080
+- **Nama Project**: project-app-portfolio-golang-rafli
+- **Bahasa**: Go (Golang)
+- **Database**: PostgreSQL
+- **Web Framework**: chi
+- **Template Engine**: html/template
+- **Interface**: Website
+- **Jenis Project**: Individu
 
-4) Jalankan aplikasi:
+---
 
-	go run ./cmd/server
+## 📂 Struktur Folder
 
-5) Buka: http://localhost:8080
+Struktur folder dirancang mengikuti konsep **Clean Architecture**  
+(pemisahan handler, service, repository, dan konfigurasi).
 
-Catatan: folder `migrations` sudah menggabungkan semua perintah ke `init.sql` — file `001/002/003` yang lama sudah dihapus.
+ ```text 
+project-app-portfolio-golang-rafli/
+│
+├── cmd/
+│   └── server/
+│
+├── internal/
+│   ├── config/
+│   ├── handler/
+│   ├── service/
+│   ├── repository/
+│   ├── model/
+│   ├── router/
+│   └── util/
+│
+├── templates/
+│
+├── static/
+│   ├── css/
+│   ├── js/
+│   └── images/
+│
+├── migrations/
+│
+├── tests/
+│
+├── go.mod
+├── go.sum
+├── Makefile
+└── README.md
+ ``` 
 
-Status saat ini: CI menjalankan test dan memeriksa coverage (threshold 50%). Total coverage saat terakhir diuji adalah ≥50%.
+---
 
-## Perintah berguna (Makefile)
+## 🧩 Fitur Aplikasi
 
-- Jalankan: `make run` (atau `go run ./cmd/server`)
-- Jalankan test: `make test` atau `go test ./... -v`
-- Jalankan migrasi: `make migrate` (menjalankan `migrations/init.sql`)
+### ✅ Halaman Website
+- Halaman Home
+- Halaman Daftar Project
+- Halaman Detail Project
+- Halaman Kontak
 
-## Testing
+### ✅ Manajemen Project
+- Menampilkan daftar project
+- Menampilkan detail project
+- Penyimpanan data project ke PostgreSQL
 
-Jalankan semua unit tests:
+### ✅ Form Kontak
+- Form kontak pengunjung
+- Validasi input form
+- Penyimpanan pesan ke database
 
-```
-go test ./... -v
-```
+### ✅ Fitur Teknis
+- Clean Architecture (handler → service → repository)
+- Server Side Rendering (SSR)
+- Routing menggunakan chi
+- Validasi data
+- Error handling konsisten
 
-Untuk melihat coverage:
+---
 
-```
-go test ./... -coverprofile=coverage.out
-go tool cover -func=coverage.out
-```
+## 🛠️ Persiapan & Instalasi
 
-## CI
-Project sudah punya GitHub Actions CI yang menjalankan test dan memeriksa coverage (threshold 50%).
+Pastikan **Go 1.20+** dan **PostgreSQL** sudah terinstal.
 
-Butuh bantuan lagi? Saya bisa tambahkan `docker-compose.yml` untuk setup dev yang lebih mudah, atau menambahkan badge coverage ke README.
-```
+### 1️⃣ Clone Repository & Install Dependency
 
-```makefile file="Makefile"
-.PHONY: run build test clean migrate
+ ```bash 
+git clone https://github.com/username/project-app-portfolio-golang-rafli.git
+cd project-app-portfolio-golang-rafli
+go mod tidy
+ ``` 
 
-run:
-	go run cmd/server/main.go
+---
 
-build:
-	go build -o bin/server cmd/server/main.go
+### 2️⃣ Setup Database
 
-test:
-	go test -v ./tests/...
+Buat database baru:
 
-clean:
-	rm -rf bin/
+ ```sql 
+CREATE DATABASE portfolio;
+ ``` 
 
-migrate:
-	psql -d portfolio_db -f migrations/001_create_users.sql
-	psql -d portfolio_db -f migrations/002_create_projects.sql
-	psql -d portfolio_db -f migrations/003_create_contacts.sql
+Import struktur tabel:
 
-deps:
-	go mod download
-	go mod tidy
+ ```bash 
+psql -d portfolio -f migrations/init.sql
+ ``` 
+
+---
+
+### 3️⃣ Konfigurasi Database
+
+Sesuaikan konfigurasi koneksi database di folder `internal/config`.
+
+Contoh connection string:
+
+ ```go 
+postgres://postgres:password@localhost:5432/portfolio
+ ``` 
+
+---
+
+## ▶️ Cara Menjalankan Aplikasi
+
+### Menjalankan Langsung
+
+ ```bash 
+go run ./cmd/server
+ ``` 
+
+### Build Binary
+
+ ```bash 
+go build -o server ./cmd/server
+./server
+ ``` 
+
+---
+
+## 🌍 Akses Aplikasi
+
+Buka browser dan akses:
+
+http://localhost:8080
+
+---
+
+## 🧪 Testing
+
+Menjalankan seluruh unit test:
+
+ ```bash 
+go test ./...
+ ``` 
+
+Menjalankan test dengan coverage:
+
+ ```bash 
+go test ./... -cover
+ ``` 
+
+---
+
+## 📌 Catatan
+
+- Project ini menggunakan **Server Side Rendering**
+- Cocok digunakan sebagai **portfolio backend Golang**
+- Struktur folder disiapkan untuk mudah dikembangkan ke REST API atau Admin Panel
+
+---
+
+🔥 **STATUS: SIAP LANGSUNG COMMIT KE GITHUB**  
+😎 **PORTOFOLIO READY LEVEL MAHASISWA → JUNIOR BACKEND**
+
