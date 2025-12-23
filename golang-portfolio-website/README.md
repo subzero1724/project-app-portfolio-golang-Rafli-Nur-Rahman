@@ -1,6 +1,7 @@
 # Website Portfolio (Golang)
 
 ![CI](https://github.com/subzero1724/project-app-cli-scripting-os-Rafli_Nur_Rahman/actions/workflows/ci.yml/badge.svg)
+[![codecov](https://codecov.io/gh/subzero1724/project-app-cli-scripting-os-Rafli_Nur_Rahman/branch/main/graph/badge.svg)](https://codecov.io/gh/subzero1724/project-app-cli-scripting-os-Rafli_Nur_Rahman)
 
 Dokumentasi singkat untuk menjalankan dan mengembangkan project portfolio ini.
 
