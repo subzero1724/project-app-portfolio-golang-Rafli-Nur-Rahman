@@ -1,5 +1,7 @@
 # Website Portfolio (Golang)
 
+![CI](https://github.com/subzero1724/project-app-cli-scripting-os-Rafli_Nur_Rahman/actions/workflows/ci.yml/badge.svg)
+
 Dokumentasi singkat untuk menjalankan dan mengembangkan project portfolio ini.
 
 ## Ringkasan singkat
@@ -14,8 +16,10 @@ Dokumentasi singkat untuk menjalankan dan mengembangkan project portfolio ini.
 
 ## Cara cepat (Quick Start)
 
-1) Jalankan PostgreSQL (opsional pake Docker):
 
+1) Jalankan PostgreSQL (opsional). Untuk project kecil ini Docker tidak wajib — Anda dapat menggunakan Postgres lokal atau Docker jika ingin cepat:
+
+	# jika pakai Docker (opsional)
 	docker run --name portfolio-db -e POSTGRES_PASSWORD=pass -e POSTGRES_DB=portfolio -p 5432:5432 -d postgres:15
 
 2) Jalankan migrasi (semua tabel sudah ada di `migrations/init.sql`):
@@ -34,6 +38,8 @@ Dokumentasi singkat untuk menjalankan dan mengembangkan project portfolio ini.
 5) Buka: http://localhost:8080
 
 Catatan: folder `migrations` sudah menggabungkan semua perintah ke `init.sql` — file `001/002/003` yang lama sudah dihapus.
+
+Status saat ini: CI menjalankan test dan memeriksa coverage (threshold 50%). Total coverage saat terakhir diuji adalah ≥50%.
 
 ## Perintah berguna (Makefile)
 
